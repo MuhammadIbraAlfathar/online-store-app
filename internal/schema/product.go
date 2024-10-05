@@ -12,7 +12,7 @@ type Product struct {
 	Price       int            `json:"price" gorm:"not null"`
 	Stock       int            `json:"stock" gorm:"not null"`
 	CategoryId  int            `json:"category_id" gorm:"not null"`
-	Category    Category       `json:"category" gorm:"foreignKey:CategoryID"`
+	Category    Category       `json:"category" gorm:"foreignKey:CategoryId"`
 	CreatedAt   time.Time      `json:"created_at"`
 	UpdatedAt   time.Time      `json:"updated_at"`
 	DeletedAt   gorm.DeletedAt `gorm:"index"`
