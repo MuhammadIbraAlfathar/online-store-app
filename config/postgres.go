@@ -37,6 +37,8 @@ func NewPostgres() (*gorm.DB, error) {
 func migratePostgresTable(db *gorm.DB) error {
 	models := []interface{}{
 		&schema.User{},
+		&schema.Category{},
+		&schema.Product{},
 	}
 
 	if err := db.AutoMigrate(models...); err != nil {
