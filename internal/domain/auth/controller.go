@@ -16,6 +16,8 @@ func NewController(engine *gin.Engine, uc *UseCase) {
 	authGroup := engine.Group("/v1/auth")
 	{
 		authGroup.POST("/register", controller.Register())
+		authGroup.POST("/login", controller.Login())
+
 	}
 }
 
@@ -36,4 +38,24 @@ func (c *Controller) Register() gin.HandlerFunc {
 
 		response.NewResponse(http.StatusCreated, "Success register account", "-").Send(ctx)
 	}
+}
+
+func (c *Controller) Login() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var req LoginRequest
+		if err := ctx.ShouldBindJSON(&req); err != nil {
+			response.NewResponse(http.StatusBadRequest, err.Error(), nil).Send(ctx)
+			return
+		}
+
+		loginResponse, err := c.uc.Login(&req)
+		if err != nil {
+			response.NewResponse(http.StatusInternalServerError, err.Error(), nil).Send(ctx)
+			return
+		}
+
+		response.NewResponse(http.StatusOK, "Login success", loginResponse).Send(ctx)
+
+	}
+
 }
