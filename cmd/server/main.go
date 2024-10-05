@@ -20,13 +20,6 @@ func main() {
 		log.Println("Failed connect to database")
 	}
 
-	//r := gin.Default()
-	//r.GET("/ping", func(context *gin.Context) {
-	//	context.JSON(200, gin.H{
-	//		"message": "pong",
-	//	})
-	//})
-
 	//USER
 	userRepo := user.NewRepository(db)
 

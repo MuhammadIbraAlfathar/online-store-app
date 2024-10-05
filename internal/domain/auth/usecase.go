@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/MuhammadIbraAlfathar/online-store-app/internal/domain/user"
 	"github.com/MuhammadIbraAlfathar/online-store-app/internal/schema"
-	jwt_token "github.com/MuhammadIbraAlfathar/online-store-app/jwt"
+	jwttoken "github.com/MuhammadIbraAlfathar/online-store-app/jwt"
 	"golang.org/x/crypto/bcrypt"
 	"log"
 )
@@ -54,7 +54,7 @@ func (uc *UseCase) Login(req *LoginRequest) (*LoginResponse, error) {
 		return nil, errors.New("password not match")
 	}
 
-	accessToken, err := jwt_token.GenerateToken(dataUser.Id)
+	accessToken, err := jwttoken.GenerateToken(dataUser.Id)
 	if err != nil {
 		log.Println("error access token")
 		return nil, err
