@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"github.com/MuhammadIbraAlfathar/online-store-app/internal/response"
-	jwt_token "github.com/MuhammadIbraAlfathar/online-store-app/jwt"
+	jwttoken "github.com/MuhammadIbraAlfathar/online-store-app/jwt"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"net/http"
@@ -28,7 +28,7 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		tokenString := tokenSlice[1]
 
-		token, err := jwt_token.ValidateToken(tokenString)
+		token, err := jwttoken.ValidateToken(tokenString)
 		if err != nil || !token.Valid {
 			response.NewResponse(http.StatusUnauthorized, "Unauthorized", nil).Send(ctx)
 			ctx.Abort()
