@@ -2,6 +2,7 @@ package product
 
 import (
 	"github.com/MuhammadIbraAlfathar/online-store-app/internal/response"
+	"github.com/MuhammadIbraAlfathar/online-store-app/middleware"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -17,6 +18,7 @@ func NewController(engine *gin.Engine, uc *UseCase) {
 	}
 
 	productGroup := engine.Group("/v1/product")
+	productGroup.Use(middleware.AuthMiddleware())
 	{
 		productGroup.GET("/category/:id", controller.GetProductByCategoryId())
 	}
