@@ -5,6 +5,7 @@ import (
 	"github.com/MuhammadIbraAlfathar/online-store-app/internal/domain/auth"
 	"github.com/MuhammadIbraAlfathar/online-store-app/internal/domain/cart"
 	"github.com/MuhammadIbraAlfathar/online-store-app/internal/domain/product"
+	"github.com/MuhammadIbraAlfathar/online-store-app/internal/domain/transaction"
 	"github.com/MuhammadIbraAlfathar/online-store-app/internal/domain/user"
 	"github.com/joho/godotenv"
 	"log"
@@ -38,6 +39,11 @@ func main() {
 	cartRepo := cart.NewRepository(db)
 	cartUseCase := cart.NewUseCase(cartRepo, productRepo)
 	cart.NewController(engine, cartUseCase)
+
+	//TRANSACTION
+	transactionRepo := transaction.NewRepository(db)
+	transactionUseCase := transaction.NewUseCase(transactionRepo, productRepo, cartRepo, db)
+	transaction.NewController(engine, transactionUseCase)
 
 	err = engine.Run()
 	if err != nil {
