@@ -7,6 +7,7 @@ import (
 
 type Repository interface {
 	GetProductByCategoryId(categoryId int) (*[]schema.Product, error)
+	GetProductById(Id int) (*schema.Product, error)
 }
 
 type repository struct {
@@ -24,4 +25,14 @@ func (r *repository) GetProductByCategoryId(categoryId int) (*[]schema.Product, 
 	}
 
 	return &products, nil
+}
+
+func (r *repository) GetProductById(Id int) (*schema.Product, error) {
+	var product schema.Product
+	if err := r.db.First(&product, Id).Error; err != nil {
+		return nil, err
+	}
+
+	return &product, nil
+
 }
