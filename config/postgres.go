@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/MuhammadIbraAlfathar/online-store-app/internal/schema"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"log"
@@ -20,8 +21,33 @@ func NewPostgres() (*gorm.DB, error) {
 	if err != nil {
 		return db, err
 	}
-
 	log.Println("SUCCESS CONNECT TO DATABASE")
 
+	// Migrate Table
+	err = migratePostgresTable(db)
+	if err != nil {
+		log.Println("ERROR MIGRATE TABLE")
+	}
+
+	log.Println("SUCCESS MIGRATE TABLE")
+
 	return db, nil
+}
+
+func migratePostgresTable(db *gorm.DB) error {
+	models := []interface{}{
+		&schema.User{},
+		&schema.Category{},
+		&schema.Product{},
+		&schema.Cart{},
+		&schema.CartItem{},
+		&schema.Transaction{},
+		&schema.TransactionItem{},
+	}
+
+	if err := db.AutoMigrate(models...); err != nil {
+		return err
+	}
+
+	return nil
 }

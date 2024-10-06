@@ -8,6 +8,7 @@ type environmentVariables struct {
 	PostgresUser     string
 	PostgresPassword string
 	PostgresDbName   string
+	SecretKeyJWT     string
 }
 
 var Env *environmentVariables
@@ -20,6 +21,7 @@ func LoadEnv() {
 	env.PostgresPort = os.Getenv("DB_PORT")
 	env.PostgresHost = os.Getenv("DB_HOST")
 	env.PostgresUser = os.Getenv("DB_USER")
+	env.SecretKeyJWT = os.Getenv("SECRET_TOKEN")
 
 	Env = env
 }
