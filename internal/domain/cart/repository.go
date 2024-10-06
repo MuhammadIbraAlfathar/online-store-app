@@ -11,6 +11,7 @@ type Repository interface {
 	GetCartByUserId(userId int) (*schema.Cart, error)
 	UpdateItem(cartId int, item *schema.CartItem) error
 	ClearCart(cartID uint) error
+	DeleteCartItem(req DeleteCartItemRequest) error
 }
 
 type repository struct {
@@ -55,4 +56,8 @@ func (r *repository) UpdateItem(cartId int, item *schema.CartItem) error {
 
 func (r *repository) ClearCart(cartID uint) error {
 	return r.db.Where("cart_id = ?", cartID).Delete(&schema.CartItem{}).Error
+}
+
+func (r *repository) DeleteCartItem(req DeleteCartItemRequest) error {
+	return r.db.Where("id = ?", req.ItemId).Delete(&schema.CartItem{}).Error
 }

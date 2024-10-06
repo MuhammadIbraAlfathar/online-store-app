@@ -77,3 +77,11 @@ func (uc *UseCase) GetCartUserByUserId(userId int) (*schema.Cart, error) {
 
 	return cart, nil
 }
+
+func (uc *UseCase) DeleteCartItem(req DeleteCartItemRequest) error {
+	if err := uc.repo.DeleteCartItem(req); err != nil {
+		return errors.New("cart item not found")
+	}
+
+	return nil
+}

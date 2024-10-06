@@ -5,6 +5,11 @@ type AddToCartItemsRequest struct {
 	Quantity  int `json:"quantity"`
 }
 
+type DeleteCartItemRequest struct {
+	ItemId int
+	UserId int
+}
+
 type AddItemResponse struct {
 	Id        int `json:"id"`
 	CartId    int `json:"cart_id"`

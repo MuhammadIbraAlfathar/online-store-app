@@ -5,6 +5,7 @@ import (
 	"github.com/MuhammadIbraAlfathar/online-store-app/middleware"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 type Controller struct {
@@ -25,6 +26,7 @@ func NewController(engine *gin.Engine, uc *UseCase) {
 	{
 		cartGroup.POST("/items", controller.AddItem())
 		cartGroup.GET("/items", controller.GetCartByUserId())
+		cartGroup.DELETE("/items/:id", controller.DeleteCartItem())
 	}
 }
 
@@ -92,5 +94,26 @@ func (c *Controller) GetCartByUserId() gin.HandlerFunc {
 		}
 
 		response.NewResponse(http.StatusOK, "success get cart", responses).Send(ctx)
+	}
+}
+
+func (c *Controller) DeleteCartItem() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		userId := ctx.MustGet("user_id").(int)
+		itemId := ctx.Param("id")
+		id, _ := strconv.Atoi(itemId)
+
+		req := &DeleteCartItemRequest{
+			ItemId: id,
+			UserId: userId,
+		}
+
+		err := c.uc.DeleteCartItem(*req)
+		if err != nil {
+			response.NewResponse(http.StatusInternalServerError, err.Error(), "Error").Send(ctx)
+			return
+		}
+
+		response.NewResponse(http.StatusOK, "success delete cart item", nil).Send(ctx)
 	}
 }
